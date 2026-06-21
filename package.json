@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/sync-demos.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/sync-demos.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:demos": "node scripts/sync-demos.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

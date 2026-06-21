@@ -31,8 +31,17 @@ export function DeskExperience() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setView("seated");
+    // Demos on the monitor run in an iframe and forward Escape from there.
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin === location.origin && e.data?.type === "demo:escape")
+        setView("seated");
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("message", onMessage);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("message", onMessage);
+    };
   }, []);
 
   return (

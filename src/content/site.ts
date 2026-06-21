@@ -107,6 +107,11 @@ export const site = {
       tech: ["TypeScript", "Claude API", "Text-to-speech", "RSS"],
       // Optional: add `image: "/projects/podcast-recaps.png"` to show a screenshot on the monitor.
       href: "https://github.com/alrokosz/podcast-recaps",
+      // A working copy of the real UI with a fake backend, synced from the
+      // podcast-recaps repo by scripts/sync-demos.mjs.
+      demo: "/demos/podcast-recaps/index.html",
+      // The address the real app runs at, shown in the monitor's address bar.
+      localUrl: "127.0.0.1:8787",
     },
   ],
 

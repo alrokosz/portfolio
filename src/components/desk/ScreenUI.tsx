@@ -14,7 +14,7 @@ const tabs: Tab[] = [
   ...site.projects.map((p) => ({
     id: p.name,
     title: p.name,
-    url: p.href.replace(/^https?:\/\//, ""),
+    url: p.localUrl ?? p.href.replace(/^https?:\/\//, ""),
   })),
 ];
 
@@ -23,6 +23,12 @@ export function ScreenUI() {
   const tab = tabs.find((t) => t.id === active)!;
   const project = site.projects.find((p) => p.name === active) as
     Project | undefined;
+  // Demos stay loaded once opened, so switching tabs doesn't reset them.
+  const [opened, setOpened] = useState<string[]>([]);
+  const open = (id: string) => {
+    setActive(id);
+    if (!opened.includes(id)) setOpened([...opened, id]);
+  };
 
   return (
     <div
@@ -44,7 +50,7 @@ export function ScreenUI() {
         {tabs.map((t) => (
           <button
             key={t.id}
-            onClick={() => setActive(t.id)}
+            onClick={() => open(t.id)}
             className={`h-full max-w-60 truncate rounded-t-lg px-4 text-left text-sm transition ${
               t.id === active
                 ? "bg-[#202124] text-white"
@@ -66,9 +72,54 @@ export function ScreenUI() {
       </div>
 
       {/* page */}
-      <div className="flex-1 overflow-y-auto px-14 py-10">
-        {project ? <ProjectPage project={project} /> : <AboutPage />}
+      {site.projects
+        .filter((p) => p.demo && opened.includes(p.name))
+        .map((p) => (
+          <DemoPage key={p.name} project={p} hidden={p.name !== active} />
+        ))}
+      {!project?.demo && (
+        <div className="flex-1 overflow-y-auto px-14 py-10">
+          {project ? <ProjectPage project={project} /> : <AboutPage />}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// A project's real UI running on sample data, with a strip of context on top.
+function DemoPage({ project, hidden }: { project: Project; hidden: boolean }) {
+  return (
+    <div className={hidden ? "hidden" : "flex min-h-0 flex-1 flex-col"}>
+      <div className="flex items-center gap-4 border-b border-[#3c4043] bg-[#292a2d] px-4 py-2 text-sm">
+        <span className="rounded-full bg-[#fb923c] px-2 py-0.5 text-xs font-semibold text-black">
+          Live demo
+        </span>
+        <p className="min-w-0 flex-1 truncate text-[#bdc1c6]">
+          {project.description}
+        </p>
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 text-[#fb923c] hover:underline"
+        >
+          Full screen ↗
+        </a>
+        <a
+          href={project.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 text-[#fb923c] hover:underline"
+        >
+          GitHub ↗
+        </a>
       </div>
+      <iframe
+        src={project.demo}
+        title={`${project.name} demo`}
+        className="min-h-0 w-full flex-1 bg-white"
+        allow="clipboard-write"
+      />
     </div>
   );
 }

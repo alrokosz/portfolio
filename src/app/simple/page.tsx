@@ -73,6 +73,14 @@ export default function Home() {
                 </h3>
               </div>
               <p className="mt-2 text-muted">{project.description}</p>
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  className="mt-3 inline-block text-sm font-medium text-accent underline underline-offset-4"
+                >
+                  Try the live demo →
+                </a>
+              )}
               <ul className="mt-3 flex flex-wrap gap-2">
                 {project.tech.map((t) => (
                   <li
