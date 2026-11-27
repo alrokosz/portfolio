@@ -25,7 +25,7 @@ export const site = {
   location: "Minneapolis, MN",
   tagline:
     "Frontend-focused. I build production React and TypeScript apps, from the database to the UI.",
-  url: "https://example.com", // TODO: your Vercel domain, used for metadata
+  url: "https://www.alexrokosz.com", // used for metadata (link previews); the bare domain redirects here
 
   about: [
     "I'm a frontend-focused software engineer with 4+ years building production React and TypeScript apps, from the booking experience on choicehotels.com to the data-heavy SBOM platform at RunSafe Security.",
