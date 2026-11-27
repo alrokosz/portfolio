@@ -3,6 +3,22 @@
 //
 // Anything marked TODO is a placeholder: replace it before sharing the link.
 
+export type Project = {
+  name: string;
+  description: string;
+  tech: string[];
+  href: string;
+  /** a screenshot shown on the monitor */
+  image?: string;
+  /** a working copy of the UI, small enough to run in an iframe on the monitor */
+  demo?: string;
+  /** a full app with its own page on this site, too heavy to run inside the 3D scene: the
+   *  monitor shows a screenshot and links out to it */
+  app?: string;
+  /** the address the real app runs at, shown in the monitor's address bar */
+  localUrl?: string;
+};
+
 export const site = {
   name: "Alex Rokosz",
   role: "Software Engineer",
@@ -101,6 +117,16 @@ export const site = {
 
   projects: [
     {
+      name: "Pawpath",
+      description:
+        "When and where to walk the dog in Minneapolis's North Loop: building and tree shade from LiDAR, sidewalk temperatures through the day, and walks routed to keep paws comfortable. An animation-heavy React app built on one Motion value for the time of day.",
+      tech: ["TypeScript", "React", "Motion", "MapLibre", "Web Workers", "LiDAR"],
+      href: "https://github.com/alrokosz/pawpath",
+      image: "/projects/pawpath.jpg",
+      // Its own Vercel project; next.config.ts forwards /pawpath to it.
+      app: "/pawpath",
+    },
+    {
       name: "Podcast Recaps",
       description:
         'Spoiler-safe "previously on" segments for long-running podcasts: AI-written, narrated recaps spliced into a private copy of the feed in Apple Podcasts.',
@@ -110,10 +136,9 @@ export const site = {
       // A working copy of the real UI with a fake backend, synced from the
       // podcast-recaps repo by scripts/sync-demos.mjs.
       demo: "/demos/podcast-recaps/index.html",
-      // The address the real app runs at, shown in the monitor's address bar.
       localUrl: "127.0.0.1:8787",
     },
-  ],
+  ] as Project[],
 
   links: {
     email: "alrokosz@gmail.com",
@@ -123,4 +148,3 @@ export const site = {
   },
 };
 
-export type Project = (typeof site.projects)[number] & { image?: string };

@@ -14,15 +14,14 @@ const tabs: Tab[] = [
   ...site.projects.map((p) => ({
     id: p.name,
     title: p.name,
-    url: p.localUrl ?? p.href.replace(/^https?:\/\//, ""),
+    url: p.localUrl ?? (p.app ? `alexrokosz.com${p.app}` : p.href.replace(/^https?:\/\//, "")),
   })),
 ];
 
 export function ScreenUI() {
   const [active, setActive] = useState(tabs[0].id);
   const tab = tabs.find((t) => t.id === active)!;
-  const project = site.projects.find((p) => p.name === active) as
-    Project | undefined;
+  const project: Project | undefined = site.projects.find((p) => p.name === active);
   // Demos stay loaded once opened, so switching tabs doesn't reset them.
   const [opened, setOpened] = useState<string[]>([]);
   const open = (id: string) => {
@@ -144,16 +143,34 @@ function ProjectPage({ project }: { project: Project }) {
             </li>
           ))}
         </ul>
-        {project.href && (
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-block rounded-full bg-[#fb923c] px-6 py-3 text-lg font-medium text-black hover:opacity-90"
-          >
-            View on GitHub ↗
-          </a>
-        )}
+        <div className="mt-8 flex flex-wrap gap-3">
+          {project.app && (
+            // Opens in its own tab: the app is a full-screen map with its own WebGL, too heavy
+            // to run inside the 3D scene.
+            <a
+              href={project.app}
+              target="_blank"
+              rel="noopener"
+              className="inline-block rounded-full bg-[#fb923c] px-6 py-3 text-lg font-medium text-black hover:opacity-90"
+            >
+              Open {project.name} ↗
+            </a>
+          )}
+          {project.href && (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={
+                project.app
+                  ? "inline-block rounded-full border border-[#5f6368] px-6 py-3 text-lg hover:border-[#fb923c] hover:text-[#fb923c]"
+                  : "inline-block rounded-full bg-[#fb923c] px-6 py-3 text-lg font-medium text-black hover:opacity-90"
+              }
+            >
+              View on GitHub ↗
+            </a>
+          )}
+        </div>
       </div>
       {project.image && (
         // eslint-disable-next-line @next/next/no-img-element

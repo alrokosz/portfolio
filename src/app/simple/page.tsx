@@ -73,12 +73,12 @@ export default function Home() {
                 </h3>
               </div>
               <p className="mt-2 text-muted">{project.description}</p>
-              {project.demo && (
+              {(project.app ?? project.demo) && (
                 <a
-                  href={project.demo}
+                  href={project.app ?? project.demo}
                   className="mt-3 inline-block text-sm font-medium text-accent underline underline-offset-4"
                 >
-                  Try the live demo →
+                  {project.app ? `Open ${project.name} →` : "Try the live demo →"}
                 </a>
               )}
               <ul className="mt-3 flex flex-wrap gap-2">
