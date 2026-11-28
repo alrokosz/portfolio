@@ -1,6 +1,8 @@
 # Portfolio
 
-My personal site. Next.js (App Router) + Tailwind, with a three.js apartment you can explore at `/apartment`.
+My personal site, live at **[www.alexrokosz.com](https://www.alexrokosz.com)**: a three.js
+recreation of my den where you sit at the desk and browse my projects on the monitor. Built with
+Next.js (App Router), React Three Fiber and Tailwind.
 
 ## Develop
 
@@ -59,3 +61,12 @@ The Podcast Recaps tab on the monitor runs the app's real UI on sample data.
 ## Deploy
 
 Push to GitHub, import the repo at vercel.com/new, then add your domain under Project → Settings → Domains.
+
+## License
+
+The code is MIT licensed (see [LICENSE](LICENSE)). That covers the code only, not:
+
+- the 3D models in `public/models/` (some are © Inter IKEA Systems B.V.; the rest belong to their
+  respective creators),
+- the resume, photos and personal content (in `public/` and `src/content/`).
+- third-party files such as the Draco decoder in `public/draco/` (Apache 2.0, by Google).
